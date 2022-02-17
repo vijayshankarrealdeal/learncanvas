@@ -1,10 +1,10 @@
-import 'dart:io';
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:learncanvas/board_logic.dart';
 import 'package:learncanvas/particles/particle_widget.dart';
+import 'package:learncanvas/plaform/devices.dart';
+import 'package:learncanvas/plaform/text.dart';
 import 'package:learncanvas/smoke/smoke_control.dart';
 import 'package:learncanvas/smoke/smoke_widget.dart';
 import 'package:provider/provider.dart';
@@ -57,108 +57,66 @@ class NumDial extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: MediaQuery.of(context).size.height * 0.15),
           IntrinsicHeight(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  '${blogic.moves} Moves',
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontFamily: 'SFMedium',
-                        color: Colors.white,
-                      ),
-                ),
+                Text('${blogic.moves} Moves',
+                    style: PuzzleText.kHeadingText(context)),
                 const VerticalDivider(
                   color: Colors.white,
                   thickness: 2,
                 ),
-                Text(
-                  '${blogic.numbers.length - 1} Tiles',
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontFamily: 'SFMedium',
-                        color: Colors.white,
-                      ),
-                ),
+                Text('${blogic.numbers.length - 1} Tiles',
+                    style: PuzzleText.kHeadingText(context)),
               ],
             ),
           ),
-          Center(
-            child: SizedBox(
-                height: Platform.isAndroid
-                    ? MediaQuery.of(context).size.height * 0.45
-                    : MediaQuery.of(context).size.height * 0.54,
-                width: Platform.isAndroid
-                    ? MediaQuery.of(context).size.height * 0.4
-                    : MediaQuery.of(context).size.width * 0.4,
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    childAspectRatio: Platform.isAndroid
-                        ? 1
-                        : MediaQuery.of(context).size.aspectRatio * 0.75,
-                    mainAxisSpacing: 2,
-                    crossAxisSpacing: 2,
-                  ),
-                  itemBuilder: (ctx, index) {
-                    return blogic.numbers[index] != 0
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(12.0),
-                            clipBehavior: Clip.antiAlias,
-                            child: GestureDetector(
-                              onTap: !blogic.gameStart
-                                  ? null
-                                  : () => blogic.onClick(index),
-                              child: BackdropFilter(
-                                filter:
-                                    ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    color: Colors.white.withOpacity(0.03),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      blogic.numbers[index].toString(),
-                                      style: Platform.isAndroid
-                                          ? Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .copyWith(
-                                                fontFamily: 'SFMedium',
-                                                fontSize: 28,
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.white
-                                                    .withOpacity(0.85),
-                                              )
-                                          : Theme.of(context)
-                                              .textTheme
-                                              .displaySmall!
-                                              .copyWith(
-                                                fontFamily: 'SFMedium',
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.06,
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.white
-                                                    .withOpacity(0.85),
-                                              ),
-                                    ),
+          SizedBox(
+              height: PuzzlePlatform.kheightBoard(context),
+              width: PuzzlePlatform.kheightBoard(context),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  childAspectRatio: PuzzlePlatform.kaspectRationBoard(context),
+                  mainAxisSpacing: 2,
+                  crossAxisSpacing: 2,
+                ),
+                itemBuilder: (ctx, index) {
+                  return blogic.numbers[index] != 0
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          clipBehavior: Clip.antiAlias,
+                          child: GestureDetector(
+                            onTap: !blogic.gameStart
+                                ? null
+                                : () => blogic.onClick(index),
+                            child: BackdropFilter(
+                              filter:
+                                  ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  color: Colors.white.withOpacity(0.03),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    blogic.numbers[index].toString(),
+                                    style: PuzzleText.kBoardNumber(context),
                                   ),
                                 ),
                               ),
                             ),
-                          )
-                        : const SizedBox.shrink();
-                  },
-                  itemCount: blogic.numbers.length,
-                )),
-          ),
+                          ),
+                        )
+                      : const SizedBox.shrink();
+                },
+                itemCount: blogic.numbers.length,
+              )),
           SizedBox(
-            width: Platform.isAndroid
-                ? MediaQuery.of(context).size.height * 0.3
-                : MediaQuery.of(context).size.width * 0.3,
+            width: PuzzlePlatform.kwidthButton(context),
             child: CupertinoButton(
               color: blogic.gameStart
                   ? CupertinoColors.activeBlue.withOpacity(0.16)
@@ -189,36 +147,19 @@ class NumDial extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: Platform.isAndroid
-                ? MediaQuery.of(context).size.height * 0.3
-                : MediaQuery.of(context).size.width * 0.3,
+            width: PuzzlePlatform.kwidthButton(context),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  '${blogic.hr}   : ',
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                        fontFamily: 'SFMedium',
-                        color: Colors.white,
-                      ),
-                ),
+                Text('${blogic.hr}   : ',
+                    style: PuzzleText.kTimerDigits(context)),
                 const SizedBox(width: 3),
-                Text(
-                  '${blogic.minute}   : ',
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                        fontFamily: 'SFMedium',
-                        color: Colors.white,
-                      ),
-                ),
+                Text('${blogic.minute}   : ',
+                    style: PuzzleText.kTimerDigits(context)),
                 const SizedBox(width: 5),
-                Text(
-                  '${blogic.second}',
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                        fontFamily: 'SFMedium',
-                        color: Colors.white,
-                      ),
-                ),
+                Text('${blogic.second}',
+                    style: PuzzleText.kTimerDigits(context)),
               ],
             ),
           ),

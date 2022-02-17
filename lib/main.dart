@@ -11,7 +11,10 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (!kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows)) {
+      await DesktopWindow.setWindowSize(const Size(1000, 800));
     await DesktopWindow.setMinWindowSize(const Size(1000, 800));
+    await DesktopWindow.setMaxWindowSize(const Size(1920, 1080));
+  
   }
   runApp(const MyApp());
 }

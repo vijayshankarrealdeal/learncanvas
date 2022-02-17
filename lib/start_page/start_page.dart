@@ -1,9 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:learncanvas/customIcon/my_ico.dart';
 import 'package:learncanvas/home.dart';
+import 'package:learncanvas/plaform/text.dart';
 import 'package:learncanvas/smoke/smoke_control.dart';
 import 'package:learncanvas/smoke/smoke_widget.dart';
 import 'package:page_transition/page_transition.dart';
@@ -129,16 +129,8 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Center(
-                          child: Text(
-                            "Puzzle+",
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayLarge!
-                                .copyWith(
-                                  fontFamily: "SFMedium",
-                                  color: Colors.white,
-                                ),
-                          ),
+                          child: Text("Puzzle+",
+                              style: PuzzleText.kPuzzlePlusLogo(context)),
                         ),
                         Text(
                           "By Team smoke",

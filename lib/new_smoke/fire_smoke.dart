@@ -13,15 +13,25 @@ class KeyFrames {
   late double remainingLife;
   late Size screenSize;
   var palette = <Color>[];
-  KeyFrames(Size screenSize) {
+  KeyFrames(
+    Size screenSize,
+    double lifeAlpha,
+    double lifeFactor,
+    double radiusAlpha,
+    double radiusFactor,
+    double speedAplhaX,
+    double speedAlphaY,
+    double speedFactorX,
+    double speedFactorY,
+  ) {
     Random rd = Random();
     screenSize = screenSize;
     speed = Offset(-5 + rd.nextDouble() * 10, -15.0 + rd.nextDouble() * 10);
     location = Offset(screenSize.width / 2, screenSize.height / 3 * 2);
     //Flame or Smoke
-    radius = 10 + rd.nextDouble() * 30;
+    radius = radiusAlpha + rd.nextDouble() * radiusFactor;
     //Make More longer
-    life = 20 + rd.nextDouble() * 20;
+    life = lifeAlpha + rd.nextDouble() * lifeFactor;
     remainingLife = life;
     for (int i = 5; i < 70; i++) {
       palette.add(HSLColor.fromAHSL(1, 227, 1, i / 100).toColor());
@@ -39,15 +49,15 @@ class KeyFrames {
     }
   }
 
-  display(Canvas canvas) {
-    opacity = (remainingLife / life * 100).round() / 100;
+  display(Canvas canvas, double smokeFactor, double giltterFactor) {
+    opacity = (remainingLife / life * smokeFactor).round() / giltterFactor;
     var gradient = RadialGradient(
       colors: [
         Color.fromRGBO(color.red, color.green, color.blue, opacity),
         Color.fromRGBO(color.red, color.green, color.blue, opacity),
         Color.fromRGBO(color.red, color.green, color.blue, 0.0)
       ],
-      stops: const [0.0, 0.2, 1.0],
+      stops: const [0.0, 0.1, 1.0],
     );
 
     Paint painter = Paint()
@@ -60,7 +70,11 @@ class KeyFrames {
 }
 
 class FIRESMOKE extends StatefulWidget {
-  const FIRESMOKE({Key? key}) : super(key: key);
+  final double smokeFactor;
+  final double gillterFactor;
+  const FIRESMOKE(
+      {Key? key, required this.smokeFactor, required this.gillterFactor})
+      : super(key: key);
 
   @override
   _FIRESMOKEState createState() => _FIRESMOKEState();
@@ -73,9 +87,21 @@ class _FIRESMOKEState extends State<FIRESMOKE> with TickerProviderStateMixin {
   Random rand = Random(DateTime.now().millisecondsSinceEpoch);
   late List<KeyFrames> l;
 
+  //  lifeAlpha = 20,
+  //  lifeFactor = 20,
+  //  radiusAlpha = 10,
+  //  radiusFactor = 30,
+  //  speedAplhaX = -5,
+  //  speedAlphaY = -15,
+  //  speedFactorX = 10,
+  //  speedFactorY = 10,
+
   @override
   void initState() {
-    particleSystem = List.generate(300, (i) => KeyFrames(sizeOfScreen));
+    particleSystem = List.generate(
+      300,
+      (i) => KeyFrames(sizeOfScreen, 20, 20, 10, 30, -5, -15, 10, 10),
+    );
     animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200))
       ..addListener(() {
@@ -86,7 +112,8 @@ class _FIRESMOKEState extends State<FIRESMOKE> with TickerProviderStateMixin {
           // Restored particle
           if (particleSystem[i].remainingLife < 0 ||
               particleSystem[i].radius < 0) {
-            particleSystem[i] = KeyFrames(sizeOfScreen);
+            particleSystem[i] =
+                KeyFrames(sizeOfScreen, 20, 20, 10, 30, -5, -15, 10, 10);
           }
         }
       })
@@ -106,7 +133,8 @@ class _FIRESMOKEState extends State<FIRESMOKE> with TickerProviderStateMixin {
       animation: animationController,
       builder: (context, child) => CustomPaint(
         size: sizeOfScreen,
-        painter: _DemoPainter(particleSystem, sizeOfScreen),
+        painter: _DemoPainter(particleSystem, sizeOfScreen, widget.smokeFactor,
+            widget.gillterFactor),
       ),
     );
   }
@@ -115,7 +143,9 @@ class _FIRESMOKEState extends State<FIRESMOKE> with TickerProviderStateMixin {
 class _DemoPainter extends CustomPainter {
   final List<KeyFrames> l;
   final Size screenSize;
-  _DemoPainter(this.l, this.screenSize);
+  final double smokeFactor;
+  final double gillterFactor;
+  _DemoPainter(this.l, this.screenSize, this.smokeFactor, this.gillterFactor);
   Offset ploarDistance(double speed, double theta) {
     return Offset(speed * cos(theta), speed * sin(theta));
   }
@@ -123,7 +153,7 @@ class _DemoPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     for (var particles in l) {
-      particles.display(canvas);
+      particles.display(canvas, smokeFactor, gillterFactor);
     }
   }
 

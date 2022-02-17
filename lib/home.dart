@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:learncanvas/dynamics/fan_dynmics_home.dart';
 import 'package:learncanvas/new_smoke/fire_smoke.dart';
@@ -18,6 +20,17 @@ class MyPainter extends StatelessWidget {
       ),
       child: Stack(
         children: [
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Transform.rotate(
+              angle: pi / 2,
+              child: Transform.translate(
+                offset: Offset(MediaQuery.of(context).size.width * 0.03,
+                    MediaQuery.of(context).size.height * 0.1),
+                child: const FIRESMOKE(smokeFactor: 10, gillterFactor: 100),
+              ),
+            ),
+          ),
           // Transform.rotate(
           //   angle: pi / 24,
           //   child: Transform.translate(
@@ -45,7 +58,7 @@ class MyPainter extends StatelessWidget {
                 MediaQuery.of(context).size.height * 0.2),
             child: const Align(
               alignment: Alignment.bottomCenter,
-              child: FIRESMOKE(),
+              child: FIRESMOKE(smokeFactor: 10, gillterFactor: 100),
             ),
           ),
           Transform.translate(
@@ -53,7 +66,7 @@ class MyPainter extends StatelessWidget {
                 MediaQuery.of(context).size.height * 0.2),
             child: const Align(
               alignment: Alignment.bottomCenter,
-              child: FIRESMOKE(),
+              child: FIRESMOKE(smokeFactor: 10, gillterFactor: 100),
             ),
           ),
           const NumDial(),

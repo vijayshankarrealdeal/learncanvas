@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:learncanvas/dynamics/fan_dynmics_home.dart';
 import 'package:learncanvas/new_smoke/fire_smoke.dart';
@@ -36,11 +34,12 @@ class MyPainter extends StatelessWidget {
           //     ),
           //   ),
           // ),
+
           Container(width: double.infinity),
           const Center(child: FanDynamics()),
           const SmokeWidgetHome(),
-          const NumDial(),
           const ParticleWidgetHome(),
+
           Transform.translate(
             offset: Offset(-MediaQuery.of(context).size.width * 0.45,
                 MediaQuery.of(context).size.height * 0.2),
@@ -57,6 +56,7 @@ class MyPainter extends StatelessWidget {
               child: FIRESMOKE(),
             ),
           ),
+          const NumDial(),
         ],
       ),
     ));

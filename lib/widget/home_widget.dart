@@ -1,7 +1,6 @@
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:learncanvas/board_logic.dart';
+import 'package:learncanvas/board/game_controller.dart';
+import 'package:learncanvas/board/puzzle_interact.dart';
 import 'package:learncanvas/particles/particle_widget.dart';
 import 'package:learncanvas/plaform/devices.dart';
 import 'package:learncanvas/plaform/text.dart';
@@ -52,7 +51,7 @@ class NumDial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Logic>(builder: (context, blogic, _) {
+    return Consumer<GameController>(builder: (context, blogic, _) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -69,7 +68,7 @@ class NumDial extends StatelessWidget {
                   color: Colors.white,
                   thickness: 2,
                 ),
-                Text('${blogic.numbers.length - 1} Tiles',
+                Text('${blogic.puzzle.tiles.length} Tiles',
                     style: PuzzleText.kHeadingText(context)),
               ],
             ),
@@ -77,75 +76,83 @@ class NumDial extends StatelessWidget {
           SizedBox(
             height: PuzzlePlatform.kheightBoard(context),
             width: PuzzlePlatform.kheightBoard(context),
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                childAspectRatio: PuzzlePlatform.kaspectRationBoard(context),
-                mainAxisSpacing: 2,
-                crossAxisSpacing: 2,
+            child: const Padding(
+              padding: EdgeInsets.all(4.0),
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: PuzzleInteract(),
               ),
-              itemBuilder: (ctx, index) {
-                return blogic.numbers[index] != 0
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(12.0),
-                        clipBehavior: Clip.antiAlias,
-                        child: GestureDetector(
-                          onTap: !blogic.gameStart
-                              ? null
-                              : () => blogic.onClick(index),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12.0),
-                                color: Colors.white.withOpacity(0.03),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  blogic.numbers[index].toString(),
-                                  style: PuzzleText.kBoardNumber(context),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    : const SizedBox.shrink();
-              },
-              itemCount: blogic.numbers.length,
             ),
+
+            // GridView.builder(
+            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //     crossAxisCount: 4,
+            //     childAspectRatio: PuzzlePlatform.kaspectRationBoard(context),
+            //     mainAxisSpacing: 2,
+            //     crossAxisSpacing: 2,
+            //   ),
+            //   itemBuilder: (ctx, index) {
+            //     return blogic.numbers[index] != 0
+            //         ? ClipRRect(
+            //             borderRadius: BorderRadius.circular(12.0),
+            //             clipBehavior: Clip.antiAlias,
+            //             child: GestureDetector(
+            //               onTap: !blogic.gameStart
+            //                   ? null
+            //                   : () => blogic.onClick(index),
+            //               child: BackdropFilter(
+            //                 filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+            //                 child: Container(
+            //                   decoration: BoxDecoration(
+            //                     borderRadius: BorderRadius.circular(12.0),
+            //                     color: Colors.white.withOpacity(0.03),
+            //                   ),
+            //                   child: Center(
+            //                     child: Text(
+            //                       blogic.numbers[index].toString(),
+            //                       style: PuzzleText.kBoardNumber(context),
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ),
+            //             ),
+            //           )
+            //         : const SizedBox.shrink();
+            //   },
+            //   itemCount: blogic.numbers.length,
+            // ),
           ),
-          SizedBox(
-            width: PuzzlePlatform.kwidthButton(context),
-            child: CupertinoButton(
-              color: blogic.gameStart
-                  ? CupertinoColors.activeBlue.withOpacity(0.16)
-                  : CupertinoColors.activeBlue.withOpacity(0.25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  blogic.gameStart
-                      ? const Icon(
-                          CupertinoIcons.restart,
-                          color: Colors.white,
-                          size: 15,
-                        )
-                      : const SizedBox.shrink(),
-                  const SizedBox(width: 4),
-                  Text(
-                    blogic.gameStart ? 'Shuffle' : 'Start',
-                    style: Theme.of(context).textTheme.button!.copyWith(
-                          fontFamily: 'SFMedium',
-                          color: Colors.white,
-                        ),
-                  ),
-                ],
-              ),
-              onPressed: () =>
-                  blogic.gameStart ? blogic.makeNew() : blogic.startGame(),
-            ),
-          ),
+          // SizedBox(
+          //   width: PuzzlePlatform.kwidthButton(context),
+          //   child: CupertinoButton(
+          //     color: blogic.gameStart
+          //         ? CupertinoColors.activeBlue.withOpacity(0.16)
+          //         : CupertinoColors.activeBlue.withOpacity(0.25),
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         blogic.gameStart
+          //             ? const Icon(
+          //                 CupertinoIcons.restart,
+          //                 color: Colors.white,
+          //                 size: 15,
+          //               )
+          //             : const SizedBox.shrink(),
+          //         const SizedBox(width: 4),
+          //         Text(
+          //           blogic.gameStart ? 'Shuffle' : 'Start',
+          //           style: Theme.of(context).textTheme.button!.copyWith(
+          //                 fontFamily: 'SFMedium',
+          //                 color: Colors.white,
+          //               ),
+          //         ),
+          //       ],
+          //     ),
+          //     onPressed: () =>
+          //         blogic.gameStart ? blogic.makeNew() : blogic.startGame(),
+          //   ),
+          // ),
           SizedBox(
             width: PuzzlePlatform.kwidthButton(context),
             child: Row(

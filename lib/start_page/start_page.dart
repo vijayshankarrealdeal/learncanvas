@@ -40,7 +40,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
 
     _controller2.repeat();
     _controller3 = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 4650))
+        vsync: this, duration: const Duration(milliseconds: 4300))
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           onClose();

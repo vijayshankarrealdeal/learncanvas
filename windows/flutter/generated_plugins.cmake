@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_window
-  libwinmedia
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)

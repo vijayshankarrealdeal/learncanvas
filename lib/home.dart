@@ -89,7 +89,7 @@ class MyPainter extends StatelessWidget {
               child: FIRESMOKE(
                   smokeFactor: 10,
                   gillterFactor: 100,
-                  lifeAlpha: 20,
+                  lifeAlpha: 10,
                   lifeFactor: 20,
                   radiusAlpha: 10,
                   radiusFactor: 30,

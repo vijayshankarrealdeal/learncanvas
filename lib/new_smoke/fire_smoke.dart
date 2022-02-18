@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:learncanvas/board_logic.dart';
+import 'package:provider/provider.dart';
 
 class KeyFrames {
   late Offset speed;

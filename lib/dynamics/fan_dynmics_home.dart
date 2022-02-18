@@ -35,7 +35,7 @@ class _FanDynamicsState extends State<FanDynamics>
   @override
   Widget build(BuildContext context) {
     return RotationTransition(
-      turns: Tween<double>(begin: 2*pi, end: 0).animate(_controller),
+      turns: Tween<double>(begin: 2 * pi, end: 0).animate(_controller),
       child: Icon(
         MyFlutterApp.myIconSpeed,
         size: 200,

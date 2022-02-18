@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 class PuzzlePlatform {
   static double kheightBoard(BuildContext context) {
     if (kIsWeb) {
-      return MediaQuery.of(context).size.height * 0.74;
+      return MediaQuery.of(context).size.height * 0.6;
     }
     if (Platform.isAndroid) {
       return MediaQuery.of(context).size.height * 0.45;
     }
-    return MediaQuery.of(context).size.height * 0.57;
+    return MediaQuery.of(context).size.height * 0.5;
   }
 
   static double kwidthBoard(BuildContext context) {
     if (kIsWeb) {
-      return MediaQuery.of(context).size.width * 0.5;
+      return MediaQuery.of(context).size.width * 0.4;
     }
     if (Platform.isAndroid) {
       return MediaQuery.of(context).size.height * 0.4;

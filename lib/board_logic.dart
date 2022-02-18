@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 
@@ -11,6 +12,7 @@ class Logic extends ChangeNotifier {
   int height = 20;
   int width = 20;
   int hr = 0;
+  double smokeFactor = Random().nextInt(15).toDouble();
   Timer? timer;
   bool gameStart = false;
   void increaseCounter() {
@@ -68,6 +70,8 @@ class Logic extends ChangeNotifier {
       numbers[numbers.indexOf(0)] = numbers[index];
       numbers[index] = 0;
       moves++;
+      smokeFactor =
+          Random(DateTime.now().millisecondsSinceEpoch).nextInt(50).toDouble();
       notifyListeners();
       if (checkForWin(numbers)) {
         gamestatus = "Game Over";

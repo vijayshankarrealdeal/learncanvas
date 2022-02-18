@@ -2,11 +2,13 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:just_audio/just_audio.dart';
 
 class Logic extends ChangeNotifier {
   Logic() {
     init();
   }
+  AudioPlayer player = AudioPlayer();
   int second = 0;
   int minute = 0;
   int height = 20;
@@ -27,24 +29,19 @@ class Logic extends ChangeNotifier {
     notifyListeners();
   }
 
-  void init() {
+  void init() async {
+    await player.setAsset('assets/sound/click.mp3');
     numbers.shuffle();
 
     notifyListeners();
   }
 
   void startGame() {
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       increaseCounter();
     });
     gameStart = true;
     notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    timer!.cancel();
-    super.dispose();
   }
 
   void makeNew() {
@@ -62,7 +59,7 @@ class Logic extends ChangeNotifier {
   var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   String gamestatus = '';
 
-  void onClick(index) {
+  void onClick(index) async {
     if (index - 1 > 0 && numbers[index - 1] == 0 && index % 4 != 0 ||
         index + 1 < 16 && numbers[index + 1] == 0 && (index + 1) % 4 != 0 ||
         (index - 4 >= 0 && numbers[index - 4] == 0) ||
@@ -72,6 +69,8 @@ class Logic extends ChangeNotifier {
       moves++;
       smokeFactor =
           Random(DateTime.now().millisecondsSinceEpoch).nextInt(50).toDouble();
+
+      await player.play();
       notifyListeners();
       if (checkForWin(numbers)) {
         gamestatus = "Game Over";
@@ -88,5 +87,12 @@ class Logic extends ChangeNotifier {
       first = numberl[i];
     }
     return true;
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    timer!.cancel();
+    super.dispose();
   }
 }

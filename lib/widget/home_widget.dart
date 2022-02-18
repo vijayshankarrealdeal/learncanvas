@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:learncanvas/board_logic.dart';
-import 'package:learncanvas/dynamics/fan_dynmics_home.dart';
 import 'package:learncanvas/particles/particle_widget.dart';
 import 'package:learncanvas/plaform/devices.dart';
 import 'package:learncanvas/plaform/text.dart';

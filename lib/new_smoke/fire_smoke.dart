@@ -1,8 +1,5 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:learncanvas/board_logic.dart';
-import 'package:provider/provider.dart';
 
 class KeyFrames {
   late Offset speed;
@@ -74,8 +71,27 @@ class KeyFrames {
 class FIRESMOKE extends StatefulWidget {
   final double smokeFactor;
   final double gillterFactor;
+
+  final double lifeAlpha;
+  final double lifeFactor;
+  final double radiusAlpha;
+  final double radiusFactor;
+  final double speedAplhaX;
+  final double speedAlphaY;
+  final double speedFactorX;
+  final double speedFactorY;
   const FIRESMOKE(
-      {Key? key, required this.smokeFactor, required this.gillterFactor})
+      {Key? key,
+      required this.smokeFactor,
+      required this.gillterFactor,
+      required this.lifeAlpha,
+      required this.lifeFactor,
+      required this.radiusAlpha,
+      required this.radiusFactor,
+      required this.speedAplhaX,
+      required this.speedAlphaY,
+      required this.speedFactorX,
+      required this.speedFactorY})
       : super(key: key);
 
   @override
@@ -84,25 +100,25 @@ class FIRESMOKE extends StatefulWidget {
 
 class _FIRESMOKEState extends State<FIRESMOKE> with TickerProviderStateMixin {
   late AnimationController animationController;
-  final Size sizeOfScreen = const Size(100, 100);
+  final Size sizeOfScreen = const Size(200, 200);
   late List<KeyFrames> particleSystem;
   Random rand = Random(DateTime.now().millisecondsSinceEpoch);
   late List<KeyFrames> l;
-
-  //  lifeAlpha = 20,
-  //  lifeFactor = 20,
-  //  radiusAlpha = 10,
-  //  radiusFactor = 30,
-  //  speedAplhaX = -5,
-  //  speedAlphaY = -15,
-  //  speedFactorX = 10,
-  //  speedFactorY = 10,
-
+//Default Values = 20, 20, 10, 30, -5, -15, 10, 10
   @override
   void initState() {
     particleSystem = List.generate(
       300,
-      (i) => KeyFrames(sizeOfScreen, 20, 20, 10, 30, -5, -15, 10, 10),
+      (i) => KeyFrames(
+          sizeOfScreen,
+          widget.lifeAlpha,
+          widget.lifeFactor,
+          widget.radiusAlpha,
+          widget.radiusFactor,
+          widget.speedAplhaX,
+          widget.speedAlphaY,
+          widget.speedFactorX,
+          widget.speedFactorY),
     );
     animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200))
@@ -114,8 +130,16 @@ class _FIRESMOKEState extends State<FIRESMOKE> with TickerProviderStateMixin {
           // Restored particle
           if (particleSystem[i].remainingLife < 0 ||
               particleSystem[i].radius < 0) {
-            particleSystem[i] =
-                KeyFrames(sizeOfScreen, 20, 20, 10, 30, -5, -15, 10, 10);
+            particleSystem[i] = KeyFrames(
+                sizeOfScreen,
+                widget.lifeAlpha,
+                widget.lifeFactor,
+                widget.radiusAlpha,
+                widget.radiusFactor,
+                widget.speedAplhaX,
+                widget.speedAlphaY,
+                widget.speedFactorX,
+                widget.speedFactorY);
           }
         }
       })

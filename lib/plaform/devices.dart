@@ -35,7 +35,7 @@ class PuzzlePlatform {
 
   static double kwidthButton(BuildContext context) {
     if (kIsWeb) {
-      return MediaQuery.of(context).size.width * 0.5;
+      return MediaQuery.of(context).size.width * 0.3;
     }
     if (Platform.isAndroid) {
       return MediaQuery.of(context).size.height * 0.27;

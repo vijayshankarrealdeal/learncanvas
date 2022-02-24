@@ -43,7 +43,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
         vsync: this, duration: const Duration(milliseconds: 4300))
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          onClose();
+          //  onClose();
         }
       });
     _controller3.forward();
@@ -88,92 +88,100 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
       builder: (context, snapshot, _) {
         return snapshot.loadImage
             ? Scaffold(
-                backgroundColor: Colors.black,
-                body: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RotationTransition(
-                        turns: CurvedAnimation(
-                            parent: _controller3, curve: MyFunction()),
-                        child: Icon(
-                          MyFlutterApp.myIconSpeed,
-                          size: 100,
-                          color: Colors.white.withOpacity(0.6),
+                body: Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/images/back.png'),
+                    ),
+                  ),
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RotationTransition(
+                          turns: CurvedAnimation(
+                              parent: _controller3, curve: MyFunction()),
+                          child: Icon(
+                            MyFlutterApp.myIconSpeed,
+                            size: 100,
+                            color: Colors.white.withOpacity(0.8),
+                          ),
                         ),
                       ),
-                    ),
-                    FadeTransition(
-                      opacity: CurvedAnimation(
-                          parent: _controller3, curve: Curves.decelerate),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Text("Puzzle+",
-                                style: PuzzleText.kPuzzlePlusLogo(context)),
-                          ),
-                          Text(
-                            "By Team smoke",
-                            style: Theme.of(context).textTheme.button!.copyWith(
-                                  fontFamily: "SFMedium",
-                                  color: Colors.white,
+                      FadeTransition(
+                        opacity: CurvedAnimation(
+                            parent: _controller3, curve: Curves.decelerate),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Text("Puzzle+",
+                                  style: PuzzleText.kPuzzlePlusLogo(context)),
+                            ),
+                            Text(
+                              "By Team smoke",
+                              style:
+                                  Theme.of(context).textTheme.button!.copyWith(
+                                        fontFamily: "SFMedium",
+                                        color: Colors.white,
+                                      ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Center(
+                        child: Stack(
+                          children: [
+                            Transform.translate(
+                              offset: const Offset(20, 55),
+                              child: RotationTransition(
+                                turns: Tween(begin: 0.0, end: 1.0)
+                                    .animate(_controller1),
+                                child: Icon(
+                                  CupertinoIcons.settings,
+                                  size: 250,
+                                  color: Colors.white.withOpacity(0.05),
                                 ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Center(
-                      child: Stack(
-                        children: [
-                          Transform.translate(
-                            offset: const Offset(20, 55),
-                            child: RotationTransition(
-                              turns: Tween(begin: 0.0, end: 1.0)
-                                  .animate(_controller1),
-                              child: Icon(
-                                CupertinoIcons.settings,
-                                size: 250,
-                                color: Colors.white.withOpacity(0.05),
                               ),
                             ),
-                          ),
-                          RotationTransition(
-                            turns: Tween(begin: 1.0, end: 0.0)
-                                .animate(_controller2),
-                            child: Icon(
-                              CupertinoIcons.settings,
-                              size: 100,
-                              color: Colors.white.withOpacity(0.07),
-                            ),
-                          ),
-                          Transform.translate(
-                            offset: const Offset(220, 80),
-                            child: RotationTransition(
-                              turns: Tween(begin: -2.0, end: -1.0)
-                                  .animate(_controller4),
+                            RotationTransition(
+                              turns: Tween(begin: 1.0, end: 0.0)
+                                  .animate(_controller2),
                               child: Icon(
                                 CupertinoIcons.settings,
-                                size: 400,
-                                color: Colors.white.withOpacity(0.06),
+                                size: 100,
+                                color: Colors.white.withOpacity(0.07),
                               ),
                             ),
-                          ),
-                        ],
+                            Transform.translate(
+                              offset: const Offset(220, 80),
+                              child: RotationTransition(
+                                turns: Tween(begin: -2.0, end: -1.0)
+                                    .animate(_controller4),
+                                child: Icon(
+                                  CupertinoIcons.settings,
+                                  size: 400,
+                                  color: Colors.white.withOpacity(0.06),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.1,
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.1,
+                        ),
+                        child: SizedBox(
+                          child: SmokeCreateWidget(
+                              repeatAlways: false,
+                              img: snapshot.img!,
+                              angle: 1890),
+                        ),
                       ),
-                      child: SizedBox(
-                        child: SmokeCreateWidget(
-                            repeatAlways: false,
-                            img: snapshot.img!,
-                            angle: 1890),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             : const SizedBox();

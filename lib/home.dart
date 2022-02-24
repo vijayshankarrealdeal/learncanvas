@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:learncanvas/board/game_controller.dart';
 import 'package:learncanvas/dynamics/fan_dynmics_home.dart';
 import 'package:learncanvas/new_smoke/fire_smoke.dart';
-import 'package:learncanvas/particles/particle_widget.dart';
 import 'package:learncanvas/plaform/devices.dart';
 import 'package:learncanvas/widget/home_widget.dart';
 import 'package:provider/provider.dart';
@@ -52,74 +51,100 @@ class MyPainter extends StatelessWidget {
         decoration: const BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage('assets/images/2.png'),
+            image: AssetImage('assets/images/back.png'),
           ),
         ),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Transform.rotate(
-                angle: pi / 1.6,
-                child: Transform.translate(
-                  offset: Offset(MediaQuery.of(context).size.width * 0.27,
-                      MediaQuery.of(context).size.height * 0.36),
-                  child: const FIRESMOKE(
-                      smokeFactor: 20,
-                      gillterFactor: 100,
-                      lifeAlpha: 100,
-                      lifeFactor: 120,
-                      radiusAlpha: 50,
-                      radiusFactor: 30,
-                      speedAplhaX: -1,
-                      speedAlphaY: -5,
-                      speedFactorX: 2,
-                      speedFactorY: 2),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 8),
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Transform.rotate(
+                  angle: pi / 1.6,
+                  child: Transform.translate(
+                    offset: Offset(MediaQuery.of(context).size.width * 0.26,
+                        MediaQuery.of(context).size.height * 0.88),
+                    child: const FIRESMOKE(
+                        smokeFactor: 20,
+                        gillterFactor: 100,
+                        lifeAlpha: 100,
+                        lifeFactor: 120,
+                        radiusAlpha: 50,
+                        radiusFactor: 200,
+                        speedAplhaX: -3,
+                        speedAlphaY: -14,
+                        speedFactorX: 12,
+                        speedFactorY: 12),
+                  ),
                 ),
               ),
-            ),
-            Container(width: double.infinity),
-            const Center(child: FanDynamics()),
-            const SmokeWidgetHome(),
-            const ParticleWidgetHome(),
-            Transform.translate(
-              offset: Offset(-MediaQuery.of(context).size.width * 0.45,
-                  MediaQuery.of(context).size.height * 0.2),
-              child: const Align(
+
+              Align(
                 alignment: Alignment.bottomCenter,
-                child: FIRESMOKE(
-                    smokeFactor: 10,
-                    gillterFactor: 100,
-                    lifeAlpha: 20,
-                    lifeFactor: 20,
-                    radiusAlpha: 10,
-                    radiusFactor: 30,
-                    speedAplhaX: -5,
-                    speedAlphaY: -15,
-                    speedFactorX: 10,
-                    speedFactorY: 10),
+                child: Transform.rotate(
+                  angle: 2 * pi / 1.6,
+                  child: Transform.translate(
+                    offset: Offset(-MediaQuery.of(context).size.width * 0.7,
+                        MediaQuery.of(context).size.height * 0.88),
+                    child: const FIRESMOKE(
+                        smokeFactor: 20,
+                        gillterFactor: 100,
+                        lifeAlpha: 100,
+                        lifeFactor: 120,
+                        radiusAlpha: 30,
+                        radiusFactor: 300,
+                        speedAplhaX: -3,
+                        speedAlphaY: -14,
+                        speedFactorX: 12,
+                        speedFactorY: 12),
+                  ),
+                ),
               ),
-            ),
-            Transform.translate(
-              offset: Offset(MediaQuery.of(context).size.width * 0.45,
-                  MediaQuery.of(context).size.height * 0.2),
-              child: const Align(
-                alignment: Alignment.bottomCenter,
-                child: FIRESMOKE(
-                    smokeFactor: 10,
-                    gillterFactor: 100,
-                    lifeAlpha: 10,
-                    lifeFactor: 20,
-                    radiusAlpha: 10,
-                    radiusFactor: 30,
-                    speedAplhaX: -5,
-                    speedAlphaY: -15,
-                    speedFactorX: 10,
-                    speedFactorY: 10),
-              ),
-            ),
-            const Center(child: NumDial()),
-          ],
+
+              Container(width: double.infinity),
+              const Center(child: FanDynamics()),
+              const SmokeWidgetHome(),
+              const ParticleWidgetHome(),
+              // Transform.translate(
+              //   offset: Offset(-MediaQuery.of(context).size.width * 0.45,
+              //       MediaQuery.of(context).size.height * 0.2),
+              //   child: const Align(
+              //     alignment: Alignment.bottomCenter,
+              //     child: FIRESMOKE(
+              //         smokeFactor: 10,
+              //         gillterFactor: 100,
+              //         lifeAlpha: 20,
+              //         lifeFactor: 20,
+              //         radiusAlpha: 10,
+              //         radiusFactor: 30,
+              //         speedAplhaX: -5,
+              //         speedAlphaY: -15,
+              //         speedFactorX: 10,
+              //         speedFactorY: 10),
+              //   ),
+              // ),
+              // Transform.translate(
+              //   offset: Offset(MediaQuery.of(context).size.width * 0.45,
+              //       MediaQuery.of(context).size.height * 0.2),
+              //   child: const Align(
+              //     alignment: Alignment.bottomCenter,
+              //     child: FIRESMOKE(
+              //         smokeFactor: 10,
+              //         gillterFactor: 100,
+              //         lifeAlpha: 10,
+              //         lifeFactor: 20,
+              //         radiusAlpha: 10,
+              //         radiusFactor: 30,
+              //         speedAplhaX: -5,
+              //         speedAlphaY: -15,
+              //         speedFactorX: 10,
+              //         speedFactorY: 10),
+              //   ),
+              // ),
+              const Center(child: NumDial()),
+            ],
+          ),
         ),
       )),
     );
@@ -132,7 +157,7 @@ class MyPainter extends StatelessWidget {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 23, sigmaY: 23),
           child: Dialog(
-            backgroundColor: CupertinoColors.systemBlue.withOpacity(0.18),
+            backgroundColor: Colors.transparent,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),

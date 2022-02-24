@@ -25,10 +25,12 @@ class KeyFrames {
   ) {
     Random rd = Random();
     screenSize = screenSize;
-    speed = Offset(-5 + rd.nextDouble() * 10, -15.0 + rd.nextDouble() * 10);
+    speed = Offset(speedAplhaX + rd.nextDouble() * speedFactorX,
+        speedAlphaY + rd.nextDouble() * speedFactorY);
     location = Offset(screenSize.width / 2, screenSize.height / 3 * 2);
     //Flame or Smoke
     radius = radiusAlpha + rd.nextDouble() * radiusFactor;
+    radius = radius > 150 ? radius : 100;
     //Make More longer
     life = lifeAlpha + rd.nextDouble() * lifeFactor;
     remainingLife = life;

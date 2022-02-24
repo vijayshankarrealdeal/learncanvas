@@ -9,47 +9,49 @@ class TimesAndMoves extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final time = Provider.of<GameController>(context, listen: false).time;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ValueListenableBuilder<int>(
-          valueListenable: time,
-          builder: (_, time, icon) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Icon(
-                  CupertinoIcons.clock,
-                  color: Colors.white,
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  parseTime(time),
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        fontFamily: 'SFMedium',
-                        color: Colors.white,
-                      ),
-                ),
-              ],
-            );
-          },
-        ),
-        const SizedBox(width: 20),
-        Selector<GameController, int>(
-          builder: (_, moves, __) {
-            return Text(
-              "Moves: $moves",
-              style: Theme.of(context).textTheme.headline6!.copyWith(
-                    fontFamily: 'SFMedium',
+    return IntrinsicHeight(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ValueListenableBuilder<int>(
+            valueListenable: time,
+            builder: (_, time, icon) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(
+                    CupertinoIcons.clock,
                     color: Colors.white,
                   ),
-            );
-          },
-          selector: (_, controller) => controller.state.moves,
-        ),
-      ],
+                  const SizedBox(width: 5),
+                  Text(
+                    parseTime(time),
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                          fontFamily: 'SFMedium',
+                          color: Colors.white,
+                        ),
+                  ),
+                ],
+              );
+            },
+          ),
+          const VerticalDivider(color: Colors.white),
+          Selector<GameController, int>(
+            builder: (_, moves, __) {
+              return Text(
+                "Moves: $moves",
+                style: Theme.of(context).textTheme.headline6!.copyWith(
+                      fontFamily: 'SFMedium',
+                      color: Colors.white,
+                    ),
+              );
+            },
+            selector: (_, controller) => controller.state.moves,
+          ),
+        ],
+      ),
     );
   }
 

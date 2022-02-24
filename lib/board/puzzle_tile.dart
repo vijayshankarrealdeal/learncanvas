@@ -30,8 +30,8 @@ class PuzzleTile extends StatelessWidget {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
             child: Container(
-              height: size,
-              width: size,
+              height: size - 5,
+              width: size - 5,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
                 color: Colors.white.withOpacity(0.06),

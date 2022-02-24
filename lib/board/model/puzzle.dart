@@ -1,17 +1,19 @@
 import 'package:learncanvas/board/model/position.dart';
-import 'package:learncanvas/board/model/tile.dart';
+import 'tile.dart';
 import 'dart:math' as math;
 
 class Puzzle {
   final List<Tile> tiles;
-  final Position emptyPositon;
-  const Puzzle({
+  final Position emptyPosition;
+
+  const Puzzle._({
     required this.tiles,
-    required this.emptyPositon,
+    required this.emptyPosition,
   });
 
   bool canMove(Position tilePosition) {
-    if (tilePosition.x == emptyPositon.x || tilePosition.y == emptyPositon.y) {
+    if (tilePosition.x == emptyPosition.x ||
+        tilePosition.y == emptyPosition.y) {
       return true;
     }
     return false;
@@ -19,14 +21,14 @@ class Puzzle {
 
   Puzzle move(Tile tile) {
     final copy = [...tiles];
-    //left or right
-    if (tile.position.y == emptyPositon.y) {
+    if (tile.position.y == emptyPosition.y) {
       final row = tiles.where(
-        (e) => e.position.y == emptyPositon.y,
+        (e) => e.position.y == emptyPosition.y,
       );
-      if (tile.position.x < emptyPositon.x) {
+      if (tile.position.x < emptyPosition.x) {
         for (final e in row) {
-          if (e.position.x < tile.position.x || e.position.x > emptyPositon.x) {
+          if (e.position.x < tile.position.x ||
+              e.position.x > emptyPosition.x) {
             continue;
           }
           copy[e.value - 1] = e.move(
@@ -38,7 +40,8 @@ class Puzzle {
         }
       } else {
         for (final e in row) {
-          if (e.position.x > tile.position.x || e.position.x < emptyPositon.x) {
+          if (e.position.x > tile.position.x ||
+              e.position.x < emptyPosition.x) {
             continue;
           }
           copy[e.value - 1] = e.move(
@@ -50,13 +53,13 @@ class Puzzle {
         }
       }
     } else {
-      //top or bottom
       final column = tiles.where(
-        (e) => e.position.x == emptyPositon.x,
+        (e) => e.position.x == emptyPosition.x,
       );
-      if (tile.position.y < emptyPositon.y) {
+      if (tile.position.y < emptyPosition.y) {
         for (final e in column) {
-          if (e.position.y > emptyPositon.y || e.position.y < tile.position.y) {
+          if (e.position.y > emptyPosition.y ||
+              e.position.y < tile.position.y) {
             continue;
           }
           copy[e.value - 1] = e.move(
@@ -68,7 +71,8 @@ class Puzzle {
         }
       } else {
         for (final e in column) {
-          if (e.position.y < emptyPositon.y || e.position.y > tile.position.y) {
+          if (e.position.y < emptyPosition.y ||
+              e.position.y > tile.position.y) {
             continue;
           }
           copy[e.value - 1] = e.move(
@@ -80,37 +84,44 @@ class Puzzle {
         }
       }
     }
-    return Puzzle(
+    return Puzzle._(
       tiles: copy,
-      emptyPositon: tile.position,
+      emptyPosition: tile.position,
     );
   }
 
-  factory Puzzle.create(int crossAxisCount) {
+  /// creates a sorted puzzle
+  factory Puzzle.create(
+    int crossAxisCount,
+  ) {
     int value = 1;
-    final List<Tile> _tiles = [];
-    final emptyPosition = Position(x: crossAxisCount, y: crossAxisCount);
-    for (int i = 1; i <= crossAxisCount; i++) {
-      for (int j = 1; j <= crossAxisCount; j++) {
-        final add = (i == crossAxisCount && j == crossAxisCount);
-        if (!add) {
-          final position = Position(x: i, y: j);
+    final tiles = <Tile>[];
+
+    final emptyPosition = Position(
+      x: crossAxisCount,
+      y: crossAxisCount,
+    );
+    for (int y = 1; y <= crossAxisCount; y++) {
+      for (int x = 1; x <= crossAxisCount; x++) {
+        final add = !(x == crossAxisCount && y == crossAxisCount);
+        if (add) {
+          final position = Position(x: x, y: y);
           final tile = Tile(
             value: value,
             position: position,
             correctPosition: position,
           );
-          _tiles.add(tile);
+          tiles.add(tile);
           value++;
         }
       }
     }
-    return Puzzle(
-      tiles: _tiles,
-      emptyPositon: emptyPosition,
+
+    return Puzzle._(
+      tiles: tiles,
+      emptyPosition: emptyPosition,
     );
   }
-
   Puzzle shuffle() {
     final values = List.generate(
       tiles.length,
@@ -118,9 +129,6 @@ class Puzzle {
     );
     values.add(0);
     values.shuffle();
-
-    // [1,2,3,4,5,6,7,8,9,0] => [1,3,4,0,5,7,8,9,2,6]
-
     if (_isSolvable(values)) {
       int x = 1, y = 1;
       late Position emptyPosition;
@@ -145,32 +153,18 @@ class Puzzle {
           x++;
         }
       }
-      return Puzzle(
+
+      return Puzzle._(
         tiles: copy,
-        emptyPositon: emptyPosition,
+        emptyPosition: emptyPosition,
       );
     } else {
       return shuffle();
     }
   }
 
-  bool isSolved() {
-    final crossAxisCount = math.sqrt(tiles.length + 1).toInt();
-    if (emptyPositon.x == crossAxisCount && emptyPositon.y == crossAxisCount) {
-      for (final tile in tiles) {
-        if (tile.position != tile.correctPosition) {
-          return false;
-        }
-      }
-      return true;
-    }
-    return false;
-  }
-
   bool _isSolvable(List<int> values) {
     final n = math.sqrt(values.length);
-
-    /// inversions
     int inversions = 0;
     int y = 1;
     int emptyPositionY = 1;
@@ -210,5 +204,20 @@ class Puzzle {
         return inversions % 2 == 0;
       }
     }
+  }
+
+  /// check if the current puzzle is solved
+  bool isSolved(Tile curr) {
+    final crossAxisCount = math.sqrt(tiles.length + 1).toInt();
+    if (emptyPosition.x == crossAxisCount &&
+        emptyPosition.y == crossAxisCount) {
+      for (final tile in tiles) {
+        if (tile.position.x != tile.correctPosition.x || tile.position.y != tile.correctPosition.y ) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
   }
 }

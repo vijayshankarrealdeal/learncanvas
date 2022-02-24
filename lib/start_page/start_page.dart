@@ -61,29 +61,15 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
   }
 
   void onClose() {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       PageTransition(
           curve: Curves.decelerate,
-          duration: const Duration(milliseconds: 820),
+          duration: const Duration(milliseconds: 750),
           type: PageTransitionType.fade,
           child: const MyPainter(),
           inheritTheme: false,
           ctx: context),
     );
-    // Navigator.of(context).pushReplacement(
-    //   PageRouteBuilder(
-    //     maintainState: true,
-    //     opaque: true,
-    //     pageBuilder: (context, _, __) =>const MyPainter(),
-    //     transitionDuration: const Duration(milliseconds : 200),
-    //     transitionsBuilder: (context, anim1, anim2, child) {
-    //       return FadeTransition(
-    //         child: child,
-    //         opacity: anim1,
-    //       );
-    //     },
-    //   ),
-    // );
   }
 
   @override
@@ -98,90 +84,85 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SmokeX>(builder: (context, snapshot, _) {
-      return snapshot.loadImage
-          ? Scaffold(
-              backgroundColor: Colors.black,
-              body: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: RotationTransition(
-                      turns: CurvedAnimation(
-                          parent: _controller3, curve: MyFunction()),
-                      child: Icon(
-                        MyFlutterApp.myIconSpeed,
-                        size: 100,
-                        color: Colors.white.withOpacity(0.6),
+    return Consumer<SmokeX>(
+      builder: (context, snapshot, _) {
+        return snapshot.loadImage
+            ? Scaffold(
+                backgroundColor: Colors.black,
+                body: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RotationTransition(
+                        turns: CurvedAnimation(
+                            parent: _controller3, curve: MyFunction()),
+                        child: Icon(
+                          MyFlutterApp.myIconSpeed,
+                          size: 100,
+                          color: Colors.white.withOpacity(0.6),
+                        ),
                       ),
-
-                      //  FaIcon(
-                      //   FontAwesomeIcons.fan,
-                      //   size: 100,
-                      //   color: Colors.white.withOpacity(0.6),
-                      // ),
                     ),
-                  ),
-                  FadeTransition(
-                    opacity: CurvedAnimation(
-                        parent: _controller3, curve: Curves.decelerate),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: Text("Puzzle+",
-                              style: PuzzleText.kPuzzlePlusLogo(context)),
-                        ),
-                        Text(
-                          "By Team smoke",
-                          style: Theme.of(context).textTheme.button!.copyWith(
-                                fontFamily: "SFMedium",
-                                color: Colors.white,
+                    FadeTransition(
+                      opacity: CurvedAnimation(
+                          parent: _controller3, curve: Curves.decelerate),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Text("Puzzle+",
+                                style: PuzzleText.kPuzzlePlusLogo(context)),
+                          ),
+                          Text(
+                            "By Team smoke",
+                            style: Theme.of(context).textTheme.button!.copyWith(
+                                  fontFamily: "SFMedium",
+                                  color: Colors.white,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Center(
+                      child: Stack(
+                        children: [
+                          Transform.translate(
+                            offset: const Offset(20, 55),
+                            child: RotationTransition(
+                              turns: Tween(begin: 0.0, end: 1.0)
+                                  .animate(_controller1),
+                              child: Icon(
+                                CupertinoIcons.settings,
+                                size: 250,
+                                color: Colors.white.withOpacity(0.05),
                               ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Center(
-                    child: Stack(
-                      children: [
-                        Transform.translate(
-                          offset: const Offset(20, 55),
-                          child: RotationTransition(
-                            turns: Tween(begin: 0.0, end: 1.0)
-                                .animate(_controller1),
-                            child: Icon(
-                              CupertinoIcons.settings,
-                              size: 250,
-                              color: Colors.white.withOpacity(0.05),
                             ),
                           ),
-                        ),
-                        RotationTransition(
-                          turns:
-                              Tween(begin: 1.0, end: 0.0).animate(_controller2),
-                          child: Icon(
-                            CupertinoIcons.settings,
-                            size: 100,
-                            color: Colors.white.withOpacity(0.07),
-                          ),
-                        ),
-                        Transform.translate(
-                          offset: const Offset(220, 80),
-                          child: RotationTransition(
-                            turns: Tween(begin: -2.0, end: -1.0)
-                                .animate(_controller4),
+                          RotationTransition(
+                            turns: Tween(begin: 1.0, end: 0.0)
+                                .animate(_controller2),
                             child: Icon(
                               CupertinoIcons.settings,
-                              size: 400,
-                              color: Colors.white.withOpacity(0.06),
+                              size: 100,
+                              color: Colors.white.withOpacity(0.07),
                             ),
                           ),
-                        ),
-                      ],
+                          Transform.translate(
+                            offset: const Offset(220, 80),
+                            child: RotationTransition(
+                              turns: Tween(begin: -2.0, end: -1.0)
+                                  .animate(_controller4),
+                              child: Icon(
+                                CupertinoIcons.settings,
+                                size: 400,
+                                color: Colors.white.withOpacity(0.06),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
+                    Padding(
                       padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.1,
                       ),
@@ -190,16 +171,13 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                             repeatAlways: false,
                             img: snapshot.img!,
                             angle: 1890),
-                        // Transform.translate(
-                        //   offset: Offset(-MediaQuery.of(context).size.width,
-                        //       MediaQuery.of(context).size.height * 0.52),
-                        //   child: SmokeCreateWidget(img: snapshot.img!),
-                        // ),
-                      )),
-                ],
-              ),
-            )
-          : const SizedBox();
-    });
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : const SizedBox();
+      },
+    );
   }
 }

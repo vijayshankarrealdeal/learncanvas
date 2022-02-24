@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:learncanvas/board/game_controller.dart';
 import 'package:learncanvas/smoke/smoke_control.dart';
 import 'package:learncanvas/start_page/start_page.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<GameController>(create: (_) => GameController()),
+       
         ChangeNotifierProvider<SmokeX>(create: (_) => SmokeX()),
       ],
       child: MaterialApp(
@@ -36,4 +34,6 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+
+ 
 }

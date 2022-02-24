@@ -1,34 +1,33 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:learncanvas/board/game_state.dart';
 import 'package:learncanvas/board/model/puzzle.dart';
 import 'package:learncanvas/board/model/tile.dart';
 
 class GameController extends ChangeNotifier {
-  GameState _gameState = GameState(
-    moves: 0,
-    solved: false,
+  GameState _state = GameState(
     crossAxisCount: 3,
     puzzle: Puzzle.create(3),
+    solved: false,
+    moves: 0,
     status: GameStatus.created,
   );
-  GameState get state => _gameState;
-  Puzzle get puzzle => _gameState.puzzle;
+
   final ValueNotifier<int> time = ValueNotifier(0);
-
   final StreamController<void> _streamController = StreamController.broadcast();
-
   Stream<void> get onFinish => _streamController.stream;
 
   Timer? _timer;
+
+  GameState get state => _state;
+  Puzzle get puzzle => _state.puzzle;
 
   void onTileTapped(Tile tile) {
     final canMove = puzzle.canMove(tile.position);
     if (canMove) {
       final newPuzzle = puzzle.move(tile);
-      final solved = newPuzzle.isSolved();
-      _gameState = state.copyWith(
+      final solved = newPuzzle.isSolved(tile);
+      _state = state.copyWith(
         puzzle: newPuzzle,
         moves: state.moves + 1,
         status: solved ? GameStatus.solved : state.status,
@@ -57,7 +56,7 @@ class GameController extends ChangeNotifier {
       moves: 0,
       status: GameStatus.created,
     );
-    _gameState = newState;
+    _state = newState;
     notifyListeners();
   }
 
@@ -66,7 +65,7 @@ class GameController extends ChangeNotifier {
       time.value = 0;
       _timer!.cancel();
     }
-    _gameState = state.copyWith(
+    _state = state.copyWith(
       puzzle: puzzle.shuffle(),
       status: GameStatus.playing,
       moves: 0,

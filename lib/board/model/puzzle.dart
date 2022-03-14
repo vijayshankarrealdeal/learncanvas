@@ -208,16 +208,17 @@ class Puzzle {
 
   /// check if the current puzzle is solved
   bool isSolved(Tile curr) {
-    final crossAxisCount = math.sqrt(tiles.length + 1).toInt();
-    if (emptyPosition.x == crossAxisCount &&
-        emptyPosition.y == crossAxisCount) {
-      for (final tile in tiles) {
-        if (tile.position.x != tile.correctPosition.x || tile.position.y != tile.correctPosition.y ) {
-          return false;
+      final crossAxisCount = math.sqrt(tiles.length + 1).toInt();
+      if (emptyPosition.x == crossAxisCount &&
+          emptyPosition.y == crossAxisCount) {
+        for (final tile in tiles) {
+          if (tile.position.x != tile.correctPosition.x ||
+              tile.position.y != tile.correctPosition.y) {
+            return false;
+          }
         }
+        return true;
       }
-      return true;
-    }
-    return false;
+      return false;
   }
 }

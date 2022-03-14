@@ -155,51 +155,51 @@ class MyPainter extends StatelessWidget {
       context: context,
       builder: (context) {
         return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 23, sigmaY: 23),
+          filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
           child: Dialog(
             backgroundColor: Colors.transparent,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
-              width: PuzzlePlatform.kwidthButton(context),
+              height: MediaQuery.of(context).size.height * 0.6,
+              width: double.infinity,
               child: Stack(
                 children: [
                   Transform.translate(
-                    offset: Offset(MediaQuery.of(context).size.width * 0.45,
-                        MediaQuery.of(context).size.height * 0.2),
+                    offset: Offset(MediaQuery.of(context).size.width * 0.25,
+                        MediaQuery.of(context).size.height * 0.7),
                     child: const Align(
                       alignment: Alignment.bottomCenter,
                       child: FIRESMOKE(
                           smokeFactor: 20,
                           gillterFactor: 100,
-                          lifeAlpha: 10,
-                          lifeFactor: 20,
-                          radiusAlpha: 10,
-                          radiusFactor: 30,
-                          speedAplhaX: -5,
-                          speedAlphaY: -15,
-                          speedFactorX: 10,
-                          speedFactorY: 10),
+                          lifeAlpha: 100,
+                          lifeFactor: 120,
+                          radiusAlpha: 5,
+                          radiusFactor: 2,
+                          speedAplhaX: -3,
+                          speedAlphaY: -14,
+                          speedFactorX: 12,
+                          speedFactorY: 12),
                     ),
                   ),
                   Transform.translate(
-                    offset: Offset(-MediaQuery.of(context).size.width * 0.45,
-                        MediaQuery.of(context).size.height * 0.2),
+                    offset: Offset(-MediaQuery.of(context).size.width * 0.35,
+                        MediaQuery.of(context).size.height * 0.7),
                     child: const Align(
                       alignment: Alignment.bottomCenter,
                       child: FIRESMOKE(
                           smokeFactor: 20,
                           gillterFactor: 100,
-                          lifeAlpha: 10,
-                          lifeFactor: 20,
-                          radiusAlpha: 10,
-                          radiusFactor: 30,
-                          speedAplhaX: -5,
-                          speedAlphaY: -15,
-                          speedFactorX: 10,
-                          speedFactorY: 10),
+                          lifeAlpha: 100,
+                          lifeFactor: 120,
+                          radiusAlpha: 5,
+                          radiusFactor: 2,
+                          speedAplhaX: -3,
+                          speedAlphaY: -14,
+                          speedFactorX: 12,
+                          speedFactorY: 12),
                     ),
                   ),
                   Center(
@@ -210,8 +210,8 @@ class MyPainter extends StatelessWidget {
                         Text(
                           "Winner",
                           style:
-                              Theme.of(context).textTheme.headline4!.copyWith(
-                                    fontWeight: FontWeight.w500,
+                              Theme.of(context).textTheme.headline1!.copyWith(
+                                    fontWeight: FontWeight.w600,
                                     fontFamily: 'SFMedium',
                                     color: Colors.white,
                                   ),
@@ -219,7 +219,7 @@ class MyPainter extends StatelessWidget {
                         Text(
                           "Moves: " + moves.toString(),
                           style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              Theme.of(context).textTheme.headline5!.copyWith(
                                     fontFamily: 'SFMedium',
                                     color: Colors.white,
                                   ),
@@ -227,16 +227,20 @@ class MyPainter extends StatelessWidget {
                         Text(
                           "Duration: " + parseTime(time),
                           style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              Theme.of(context).textTheme.headline5!.copyWith(
                                     fontFamily: 'SFMedium',
                                     color: Colors.white,
                                   ),
                         ),
+                        const SizedBox(height: 10),
                         CupertinoButton(
-                          color: CupertinoColors.activeBlue.withOpacity(0.08),
+                          color: CupertinoColors.activeBlue.withOpacity(0.02),
                           child: Text(
-                            "Cancel",
-                            style: Theme.of(context).textTheme.button!.copyWith(
+                            "New Game",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
                                   fontFamily: 'SFMedium',
                                   color: Colors.white,
                                 ),

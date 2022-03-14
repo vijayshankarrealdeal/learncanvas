@@ -43,7 +43,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
         vsync: this, duration: const Duration(milliseconds: 4300))
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          //  onClose();
+          onClose();
         }
       });
     _controller3.forward();
@@ -51,7 +51,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
         vsync: this, duration: const Duration(milliseconds: 4650))
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          // onClose();
+          //  onClose();
         }
       });
 
@@ -64,7 +64,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
     Navigator.of(context).pushReplacement(
       PageTransition(
           curve: Curves.decelerate,
-          duration: const Duration(milliseconds: 750),
+          duration: const Duration(milliseconds: 830),
           type: PageTransitionType.fade,
           child: const MyPainter(),
           inheritTheme: false,

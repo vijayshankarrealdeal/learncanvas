@@ -11,6 +11,7 @@ void main() async {
   if (!kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows)) {
     await DesktopWindow.setMinWindowSize(const Size(1000, 800));
   }
+
   runApp(const MyApp());
 }
 
@@ -22,7 +23,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-       
         ChangeNotifierProvider<SmokeX>(create: (_) => SmokeX()),
       ],
       child: MaterialApp(
@@ -34,6 +34,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-
- 
 }
